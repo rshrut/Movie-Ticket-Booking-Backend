@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: movie-booking-backend
+
+
+  datasource:
+
+    url: ${DB_URL:jdbc:h2:mem:movie_db}
+    username: ${DB_USER:sa}
+    password: ${DB_PASSWORD:password}
+    # If the URL contains 'postgresql', use Postgres driver; otherwise use H2
+    driver-class-name: ${DB_DRIVER:org.h2.Driver}
+
+  jpa:
+    hibernate:
+      # 'update' automatically creates/modifies tables in Postgres to match your entities
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect:  ${DB_DIALECT:org.hibernate.dialect.H2Dialect}
+        format_sql: true
+        # Prevents common Postgres LOB (Large Object) warnings
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+application:
+  security:
+    jwt:
+      secret-key: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+      expiration: 86400000
