@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/showtimes")
-@CrossOrigin(origins = "http://localhost:4200")
 public class ShowtimeController {
 
     private final ShowtimeRepository showtimeRepository;
