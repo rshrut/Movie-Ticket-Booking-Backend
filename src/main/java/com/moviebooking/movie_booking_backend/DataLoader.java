@@ -60,27 +60,27 @@ public class DataLoader implements CommandLineRunner {
             List<Movie> movies = new ArrayList<>();
 
             movies.add(createMovie("Avengers: Endgame",
-                    "https://image.tmdb.org/t/p/w500/ulpUi7vWfhBr3TM966O930p0Feu.jpg",
+                    "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
                     "Action, Sci-Fi", 8.4, 250.0, "Bangalore",
                     "After the devastating events of Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more.", 181.0, "English"));
 
             movies.add(createMovie("Inception",
-                    "https://image.tmdb.org/t/p/w500/edv5CZvj0Y9yOQ96CcbszBuildX.jpg",
+                    "https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg",
                     "Sci-Fi, Adventure", 8.8, 200.0, "Mumbai",
                     "Cobb, a skilled thief who steals secrets from deep within the subconscious during the dream state, is offered a chance at redemption.", 148.0, "English"));
 
             movies.add(createMovie("The Dark Knight",
-                    "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDp92SKyJJwUv77fVnS.jpg",
+                    "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg",
                     "Action, Crime", 9.0, 220.0, "Bangalore",
                     "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest tests.", 152.0, "English"));
 
             movies.add(createMovie("Interstellar",
-                    "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6vCU67oYvbpvP.jpg",
+                    "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg\n",
                     "Sci-Fi, Drama", 8.7, 180.0, "Delhi",
                     "When Earth becomes uninhabitable, a team of scientists travel through a wormhole in search of a new home for mankind.", 169.0, "English"));
 
             movies.add(createMovie("Spider-Man: No Way Home",
-                    "https://image.tmdb.org/t/p/w500/1g0mXz9clH3ABvzdDsMTmFTv97G.jpg",
+                    "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
                     "Action, Adventure", 8.2, 240.0, "Bangalore",
                     "With Spider-Man's identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, foes from other worlds appear.", 148.0, "English"));
 
