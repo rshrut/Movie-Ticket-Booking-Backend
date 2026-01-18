@@ -19,7 +19,7 @@ public class Movie {
     private Double price;
     private String city;
 
-    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
     private Double duration;
     private String language;

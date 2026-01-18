@@ -1,6 +1,7 @@
 package com.moviebooking.movie_booking_backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,10 +23,12 @@ public class Showtime {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "movie_id", nullable = false)
+    @JsonIgnoreProperties("showtimes")
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "theatre_id", nullable = false)
+    @JsonIgnoreProperties("showtimes")
     private Theatre theatre;
 
     @Column(nullable = false)
