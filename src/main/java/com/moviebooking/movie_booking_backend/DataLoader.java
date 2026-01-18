@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -44,95 +45,94 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         if (movieRepository.count() == 0) {
-            System.out.println("Initializing Database with production seed data...");
+            System.out.println("Initializing Database with expanded seed data...");
 
-            // 1. Create a Test User for the "My Bookings" page
-            if (userRepository.findByEmail("test@booking.com").isEmpty()) {
-                User testUser = new User();
-                testUser.setName("Test User");
-                testUser.setEmail("test@booking.com");
-                testUser.setPassword(passwordEncoder.encode("password"));
-                userRepository.save(testUser);
-                System.out.println("Test user created: test@booking.com / password");
+            List<Movie> movies = new ArrayList<>();
+
+            movies.add(createMovie("Avengers: Endgame",
+                    "https://image.tmdb.org/t/p/w500/ulpUi7vWfhBr3TM966O930p0Feu.jpg",
+                    "Action, Sci-Fi", 8.4, 250.0, "Bangalore",
+                    "After the devastating events of Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more.", 181.0, "English"));
+
+            movies.add(createMovie("Inception",
+                    "https://image.tmdb.org/t/p/w500/edv5CZvj0Y9yOQ96CcbszBuildX.jpg",
+                    "Sci-Fi, Adventure", 8.8, 200.0, "Mumbai",
+                    "Cobb, a skilled thief who steals secrets from deep within the subconscious during the dream state, is offered a chance at redemption.", 148.0, "English"));
+
+            movies.add(createMovie("The Dark Knight",
+                    "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDp92SKyJJwUv77fVnS.jpg",
+                    "Action, Crime", 9.0, 220.0, "Bangalore",
+                    "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest tests.", 152.0, "English"));
+
+            movies.add(createMovie("Interstellar",
+                    "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6vCU67oYvbpvP.jpg",
+                    "Sci-Fi, Drama", 8.7, 180.0, "Delhi",
+                    "When Earth becomes uninhabitable, a team of scientists travel through a wormhole in search of a new home for mankind.", 169.0, "English"));
+
+            movies.add(createMovie("Spider-Man: No Way Home",
+                    "https://image.tmdb.org/t/p/w500/1g0mXz9clH3ABvzdDsMTmFTv97G.jpg",
+                    "Action, Adventure", 8.2, 240.0, "Bangalore",
+                    "With Spider-Man's identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, foes from other worlds appear.", 148.0, "English"));
+
+            movieRepository.saveAll(movies);
+
+            // 3. Seed Theatres
+            List<Theatre> theatres = new ArrayList<>();
+            theatres.add(createTheatre("PVR: Forum Mall", "Koramangala, Bangalore", 150));
+            theatres.add(createTheatre("INOX: Mantri Square", "Malleshwaram, Bangalore", 120));
+            theatres.add(createTheatre("Cinepolis: Royal Meenakshi Mall", "Bannerghatta, Bangalore", 200));
+            theatreRepository.saveAll(theatres);
+
+            // 4. Seed Showtimes
+            List<Movie> allMovies = movieRepository.findAll();
+            List<Theatre> allTheatres = theatreRepository.findAll();
+
+            LocalDateTime tomorrow = LocalDateTime.now().plusDays(1).withSecond(0).withNano(0);
+
+            for (Movie movie : allMovies) {
+                // Removed the "Bangalore" filter to generate showtimes for all movies
+                for (Theatre theatre : allTheatres) {
+                    // Create Morning (10:30), Evening (18:45), and Night (22:15) shows
+                    createShowtime(movie, theatre, tomorrow.withHour(10).withMinute(30));
+                    createShowtime(movie, theatre, tomorrow.withHour(18).withMinute(45));
+                    createShowtime(movie, theatre, tomorrow.withHour(22).withMinute(15));
+                }
             }
-
-            // 2. Create Movies
-            Movie avengers = new Movie();
-            avengers.setTitle("Avengers: Endgame");
-            // Using external URLs to ensure posters show up correctly in the hosted app
-            avengers.setPosterUrl("https://image.tmdb.org/t/p/original/qMxAmzGQO722q0UlssCOPhrXmvX.jpg");
-            avengers.setGenre("Action, Sci-Fi");
-            avengers.setRating(8.5);
-            avengers.setPrice(250.00);
-            avengers.setCity("Bangalore");
-            avengers.setDescription("The Avengers assemble once more to reverse Thanos' actions and restore balance to the universe.");
-            avengers.setDuration(181.0);
-            avengers.setLanguage("English");
-
-            Movie inception = new Movie();
-            inception.setTitle("Inception");
-            inception.setPosterUrl("https://image.tmdb.org/t/p/original/xlaY2zyzMfkhk0HSC5VUwzoZPU1.jpg");
-            inception.setGenre("Sci-Fi, Thriller");
-            inception.setRating(8.8);
-            inception.setPrice(200.00);
-            inception.setCity("Mumbai");
-            inception.setDescription("A thief who steals corporate secrets through the use of dream-sharing technology...");
-            inception.setDuration(148.0);
-            inception.setLanguage("English");
-
-            List<Movie> savedMovies = movieRepository.saveAll(List.of(avengers, inception));
-            Movie savedAvengers = savedMovies.get(0);
-            Movie savedInception = savedMovies.get(1);
-
-            // 3. Create Theatres
-            Theatre pvr = new Theatre();
-            pvr.setName("PVR Forum Mall");
-            pvr.setCity("Bangalore");
-            pvr.setSeatingCapacity(150);
-
-            Theatre inox = new Theatre();
-            inox.setName("INOX Garuda");
-            inox.setCity("Bangalore");
-            inox.setSeatingCapacity(100);
-
-            List<Theatre> savedTheatres = theatreRepository.saveAll(List.of(pvr, inox));
-            Theatre savedPvr = savedTheatres.get(0);
-            Theatre savedInox = savedTheatres.get(1);
-
-            // 4. Create Showtimes
-            LocalDateTime tomorrowMorning = LocalDateTime.now()
-                    .plusDays(1)
-                    .withHour(10)
-                    .withMinute(0)
-                    .withSecond(0)
-                    .withNano(0);
-
-            Showtime s1 = new Showtime();
-            s1.setMovie(savedAvengers);
-            s1.setTheatre(savedPvr);
-            s1.setStartTime(tomorrowMorning);
-            s1.setTotalSeats(savedPvr.getSeatingCapacity());
-            s1.setSeatsBooked(0);
-
-            Showtime s2 = new Showtime();
-            s2.setMovie(savedAvengers);
-            s2.setTheatre(savedInox);
-            s2.setStartTime(tomorrowMorning.plusHours(4));
-            s2.setTotalSeats(savedInox.getSeatingCapacity());
-            s2.setSeatsBooked(0);
-
-            Showtime s3 = new Showtime();
-            s3.setMovie(savedInception);
-            s3.setTheatre(savedPvr);
-            s3.setStartTime(tomorrowMorning.plusHours(2));
-            s3.setTotalSeats(savedPvr.getSeatingCapacity());
-            s3.setSeatsBooked(0);
-
-            showtimeRepository.saveAll(List.of(s1, s2, s3));
-
-            System.out.println("✅ Seed data successfully loaded: " + movieRepository.count() + " movies and " + showtimeRepository.count() + " showtimes.");
-        } else {
-            System.out.println("Database already contains data. Skipping initialization.");
+            System.out.println("✅ Seed data successfully loaded.");
         }
+        }
+
+
+    private Movie createMovie(String title, String url, String genre, Double rating, Double price, String city, String desc, Double dur, String lang) {
+        Movie m = new Movie();
+        m.setTitle(title);
+        m.setPosterUrl(url);
+        m.setGenre(genre);
+        m.setRating(rating);
+        m.setPrice(price);
+        m.setCity(city);
+        m.setDescription(desc);
+        m.setDuration(dur);
+        m.setLanguage(lang);
+        return m;
+    }
+
+    private Theatre createTheatre(String name, String address, int capacity) {
+        Theatre t = new Theatre();
+        t.setName(name);
+        t.setAddress(address);
+        t.setCity("Bangalore");
+        t.setSeatingCapacity(capacity);
+        return t;
+    }
+
+    private void createShowtime(Movie movie, Theatre theatre, LocalDateTime time) {
+        Showtime s = new Showtime();
+        s.setMovie(movie);
+        s.setTheatre(theatre);
+        s.setStartTime(time);
+        s.setTotalSeats(theatre.getSeatingCapacity());
+        s.setSeatsBooked(0);
+        showtimeRepository.save(s);
     }
 }
