@@ -5,6 +5,7 @@ import com.moviebooking.movie_booking_backend.entity.Theatre;
 import com.moviebooking.movie_booking_backend.repository.ShowtimeRepository;
 import com.moviebooking.movie_booking_backend.repository.TheatreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,10 @@ public class ShowtimeController {
         this.theatreRepository = theatreRepository;
     }
 
+    @GetMapping
+    public ResponseEntity<String> rootCheck() {
+        return ResponseEntity.ok("Showtimes API is active. Use /movie/{id} or /theatres endpoints.");
+    }
 
     @GetMapping("/movie/{movieId}")
     public List<Showtime> getShowtimesByMovie(@PathVariable Long movieId) {

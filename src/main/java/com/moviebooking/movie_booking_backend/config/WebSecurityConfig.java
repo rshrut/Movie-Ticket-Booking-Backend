@@ -79,7 +79,8 @@ public class WebSecurityConfig {
                                 "/api/v1/movies",
                                 "/api/v1/showtimes/**",
                                 "/api/v1/showtimes",
-                                "/api/v1/bookings/occupied/**"
+                                "/api/v1/bookings/occupied/**",
+                                "/error"
                         ).permitAll()
 
                         // PROTECTED ENDPOINTS (Booking requires login)
