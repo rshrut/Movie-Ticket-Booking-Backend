@@ -60,7 +60,7 @@ public class DataLoader implements CommandLineRunner {
             Movie avengers = new Movie();
             avengers.setTitle("Avengers: Endgame");
             // Using external URLs to ensure posters show up correctly in the hosted app
-            avengers.setPosterUrl("https://image.tmdb.org/t/p/w500/or06vS3STuS5jB0bpZxy7tpUunD.jpg");
+            avengers.setPosterUrl("https://image.tmdb.org/t/p/original/qMxAmzGQO722q0UlssCOPhrXmvX.jpg");
             avengers.setGenre("Action, Sci-Fi");
             avengers.setRating(8.5);
             avengers.setPrice(250.00);
@@ -71,7 +71,7 @@ public class DataLoader implements CommandLineRunner {
 
             Movie inception = new Movie();
             inception.setTitle("Inception");
-            inception.setPosterUrl("https://image.tmdb.org/t/p/w500/o0jO19SvevAnS77YF7pA9Yv9vYI.jpg");
+            inception.setPosterUrl("https://image.tmdb.org/t/p/original/xlaY2zyzMfkhk0HSC5VUwzoZPU1.jpg");
             inception.setGenre("Sci-Fi, Thriller");
             inception.setRating(8.8);
             inception.setPrice(200.00);
