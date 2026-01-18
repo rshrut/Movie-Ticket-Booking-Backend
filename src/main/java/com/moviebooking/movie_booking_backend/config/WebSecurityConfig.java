@@ -35,8 +35,15 @@ public class WebSecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(allowedOrigins);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedHeaders(List.of( "Authorization",
+                "Content-Type",
+                "Accept",
+                "X-Requested-With",
+                "Origin",
+                "Access-Control-Request-Method",
+                "Access-Control-Request-Headers"));
         config.setAllowCredentials(true);
+        config.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
@@ -68,9 +75,10 @@ public class WebSecurityConfig {
                         // PUBLIC ENDPOINTS (Movies, Showtimes, Auth)
                         .requestMatchers(
                                 "/api/v1/auth/**",
-                                // Added explicit base paths to ensure the root GET requests work
-                                "/api/v1/movies", "/api/v1/movies/**",
-                                "/api/v1/showtimes", "/api/v1/showtimes/**",
+                                "/api/v1/movies",
+                                "/api/v1/movies/**",
+                                "/api/v1/showtimes",
+                                "/api/v1/showtimes/**",
                                 "/api/v1/bookings/occupied/**"
                         ).permitAll()
 
