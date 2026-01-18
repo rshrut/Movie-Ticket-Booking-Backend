@@ -44,6 +44,16 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        if (userRepository.findByEmail("test@booking.com").isEmpty()) {
+            User testUser = new User();
+            testUser.setName("Test User");
+            testUser.setEmail("test@booking.com");
+            testUser.setPassword(passwordEncoder.encode("password"));
+            userRepository.save(testUser);
+            System.out.println("Test user created: test@booking.com / password");
+        }
+
+        // 2. Seed Movies (Only if DB is empty)
         if (movieRepository.count() == 0) {
             System.out.println("Initializing Database with expanded seed data...");
 
@@ -100,7 +110,7 @@ public class DataLoader implements CommandLineRunner {
             }
             System.out.println("✅ Seed data successfully loaded.");
         }
-        }
+    }
 
 
     private Movie createMovie(String title, String url, String genre, Double rating, Double price, String city, String desc, Double dur, String lang) {
