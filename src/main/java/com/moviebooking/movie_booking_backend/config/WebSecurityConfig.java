@@ -75,18 +75,18 @@ public class WebSecurityConfig {
                         // PUBLIC ENDPOINTS (Movies, Showtimes, Auth)
                         .requestMatchers(
                                 "/api/v1/auth/**",
-                                "/api/v1/movies",
                                 "/api/v1/movies/**",
-                                "/api/v1/showtimes",
+                                "/api/v1/movies",
                                 "/api/v1/showtimes/**",
+                                "/api/v1/showtimes",
                                 "/api/v1/bookings/occupied/**"
                         ).permitAll()
 
                         // PROTECTED ENDPOINTS (Booking requires login)
-                        .requestMatchers(HttpMethod.POST, "/api/v1/bookings/**").authenticated()
-
-                        // Any other generic bookings requests (history, etc.)
-                        .requestMatchers("/api/v1/bookings/**").authenticated()
+//                        .requestMatchers(HttpMethod.POST, "/api/v1/bookings/**").authenticated()
+//
+//                        // Any other generic bookings requests (history, etc.)
+//                        .requestMatchers("/api/v1/bookings/**").authenticated()
 
                         // All other requests must be authenticated
                         .anyRequest().authenticated()
