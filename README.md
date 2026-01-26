@@ -5,7 +5,7 @@ A robust, secure RESTful API built with Spring Boot to power a high-traffic movi
 🚀 Live Demo
 
 The backend is currently hosted on Render:
-https://movie-ticket-booking-backend-qnhs.onrender.com/api/v1
+https://movie-ticket-booking-backend-qnhs.onrender.com/api/v1/movies
 
 🛠 Tech Stack
 
